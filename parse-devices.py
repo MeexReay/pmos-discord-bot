@@ -65,10 +65,15 @@ for code_name in packages:
     
     if len(search_response) > 0:
         display_name = search_response[0]["title"].split("/")[0]
-        vendor = display_name.split(" ")[0]
+        vendor = display_name.split(" ")[0].strip()
 
         if code_name not in display_name:
             continue
+
+        for i in devices:
+            if i.lower() == vendor.lower():
+                vendor = i
+                break
 
         if vendor not in devices:
             devices[vendor] = {}
@@ -82,6 +87,7 @@ for code_name in packages:
 
     if percent != last_percent:
         print(f"Scratching postmarketos wiki... {percent}% {index}/{len(packages)}")
+        last_percent = percent
 
 print("Dumping devices to json...")
 
